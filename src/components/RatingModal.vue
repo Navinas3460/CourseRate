@@ -137,10 +137,14 @@ export default {
         })
         .select();
       if (!error) {
-        console.log(data);
-        this.customAlert.msg = "Rating Added";
+        this.customAlert.msg = "Rating Added.... Page will refresh in 5 seconds";
         this.customAlert.show = true;
         this.newRating = false;
+        console.log(data);
+
+        setTimeout(() => {
+          this.$router.go();
+        }, 5000);
       } else {
         alert(error.message);
       }
@@ -157,8 +161,12 @@ export default {
         .eq("course_id", this.course.id);
       if (!error) {
         console.log(data);
-        this.customAlert.msg = "Rating Updated";
+        this.customAlert.msg = "Rating Updated.... Page will refresh in 5 seconds";
         this.customAlert.show = true;
+
+        setTimeout(() => {
+          this.$router.go();
+        }, 5000);
       } else {
         alert(error.message);
       }

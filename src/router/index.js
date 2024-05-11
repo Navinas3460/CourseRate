@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import FoundationView from '../views/FoundationView.vue'
 import LoginView from '../views/LoginView.vue'
 import AddCourseView from '../views/AddCourseView.vue'
+import DiplomaView from '../views/DiplomaView.vue'
 
 import { supabase } from '../../utils/supabase.ts'
 let localUser;
@@ -20,6 +21,18 @@ const routes = [
     component: FoundationView,
     meta: { requiresAuth: true}
 
+  },
+  {
+    path: '/diploma',
+    name: 'diploma',
+    component: DiplomaView,
+    meta: { requiresAuth: true}
+  },
+  {
+    path: '/degree',
+    name: 'degree',
+    component: () => import('../views/DegreeView.vue'),
+    meta: { requiresAuth: true}
   },
   {
     path: '/login',

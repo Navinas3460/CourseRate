@@ -4,7 +4,7 @@
       <div class="grid grid-rows-1">
         <router-link to="/" class="link mx-6">Go Back</router-link>
         <article class="prose m-5">
-          <h2>Foundation Level Courses</h2>
+          <h2>Degree Level Courses</h2>
         </article>
       </div>
 
@@ -70,10 +70,8 @@
 import { supabase } from "../../utils/supabase.ts";
 import RatingModal from "../components/RatingModal.vue";
 export default {
-  name: "FoundationView",
-  components: {
-    RatingModal,
-  },
+  name: "DegreeView",
+  components: { RatingModal },
   data() {
     return {
       courses: [],
@@ -85,9 +83,10 @@ export default {
     let { data: Courses, error } = await supabase
       .from("Courses")
       .select("*")
-      .eq("course_level", "Foundation");
+      .eq("course_level", "Degree");
     if (!error) {
       this.courses = Courses;
+      //   this.loading = false;
     }
     const { data: Ratings, error_2 } = await supabase.from("Ratings").select("*");
 
@@ -104,6 +103,7 @@ export default {
           course.number_of_ratings = rating.length;
         }
       });
+
       this.loading = false;
     }
   },

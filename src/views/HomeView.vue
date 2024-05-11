@@ -15,8 +15,20 @@
       >
         Foundation
       </button>
-      <button class="btn btn-neutral" style="margin: 10px">Diploma</button>
-      <button class="btn btn-neutral" style="margin: 10px">Degree</button>
+      <button
+        class="btn btn-neutral"
+        style="margin: 10px"
+        @click="$router.push('/diploma')"
+      >
+        Diploma
+      </button>
+      <button
+        class="btn btn-neutral"
+        style="margin: 10px"
+        @click="$router.push('/degree')"
+      >
+        Degree
+      </button>
     </div>
   </div>
 </template>

@@ -13,7 +13,8 @@
       <select class="select select-bordered w-full max-w-xs mb-2" v-model="course_level">
         <option disabled selected>Level</option>
         <option>Foundation</option>
-        <option>Diploma</option>
+        <option>Diploma in Programming</option>
+        <option>Diploma in Data Science</option>
         <option>Degree</option>
       </select>
       <input
@@ -60,7 +61,8 @@ export default {
         })
         .select();
       if (!error) {
-        console.log(data);
+        alert("Course Added", data);
+        this.$router.go();
       } else {
         alert(error.message);
       }
