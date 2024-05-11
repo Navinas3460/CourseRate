@@ -1,24 +1,11 @@
 # CourseRate
 
-## Project setup
-```
-npm install
-```
+## A website to help you see the IITM BS courses difficulty level and quality 
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+Hosted here: 
 
-### Compiles and minifies for production
-```
-npm run build
-```
 
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### You can host your own, for that configure a .env file with variables :
+1. VUE_APP_ADMIN_ID
+2. VUE_APP_SUPABASE_KEY
+3. VUE_APP_SUPABASE_URL
