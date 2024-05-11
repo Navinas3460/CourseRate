@@ -1,5 +1,8 @@
 <template>
-  <button class="btn btn-neutral" @click="openModal">Rate</button>
+  <button class="btn btn-neutral" @click="openModal" v-if="loggedin">Rate</button>
+  <div class="tooltip" data-tip="Log in to rate" v-else>
+    <button class="btn btn-neutral" disabled>Rate</button>
+  </div>
   <dialog :id="modal" class="modal">
     <div class="modal-box">
       <h3 class="font-bold text-lg">
@@ -99,76 +102,78 @@ export default {
         msg: "Rating Added",
         show: false,
       },
+      loggedin: true,
     };
   },
   async mounted() {
     const { data, error } = await supabase.auth.getUser();
     if (error) {
-      alert(error);
+      this.loggedin = false;
     } else {
       this.user_id = data.user.id;
-    }
-    const { data: ratings, error_2 } = await supabase
-      .from("Ratings")
-      .select("*")
-      .eq("uuid", this.user_id)
-      .eq("course_id", this.course.id);
-    if (!error_2) {
-      if (ratings[0]) {
-        this.newRating = false;
-        this.rating_difficulty = ratings[0].course_difficulty;
-        this.rating_quality = ratings[0].course_quality;
-      } else {
-        console.log("No Ratings for this course yet");
-        console.log("modal:", this.modal);
-        console.log(this.newRating);
+      const { data: ratings, error_2 } = await supabase
+        .from("Ratings")
+        .select("*")
+        .eq("uuid", this.user_id)
+        .eq("course_id", this.course.id);
+      if (!error_2) {
+        if (ratings[0]) {
+          this.newRating = false;
+          this.rating_difficulty = ratings[0].course_difficulty;
+          this.rating_quality = ratings[0].course_quality;
+        } else {
+          console.log("No Ratings for this course yet");
+        }
       }
     }
   },
   methods: {
     async submitRating() {
-      const { data, error } = await supabase
-        .from("Ratings")
-        .insert({
-          uuid: this.user_id,
-          course_id: this.course.id,
-          course_difficulty: this.rating_difficulty,
-          course_quality: this.rating_quality,
-        })
-        .select();
-      if (!error) {
-        this.customAlert.msg = "Rating Added.... Page will refresh in 5 seconds";
-        this.customAlert.show = true;
-        this.newRating = false;
-        console.log(data);
+      if (this.loggedin) {
+        const { data, error } = await supabase
+          .from("Ratings")
+          .insert({
+            uuid: this.user_id,
+            course_id: this.course.id,
+            course_difficulty: this.rating_difficulty,
+            course_quality: this.rating_quality,
+          })
+          .select();
+        if (!error) {
+          this.customAlert.msg = "Rating Added.... Page will refresh in 5 seconds";
+          this.customAlert.show = true;
+          this.newRating = false;
+          console.log(data);
 
-        setTimeout(() => {
-          this.$router.go();
-        }, 5000);
-      } else {
-        alert(error.message);
+          setTimeout(() => {
+            this.$router.go();
+          }, 5000);
+        } else {
+          alert(error.message);
+        }
       }
     },
     async updateRating() {
-      console.log("here");
-      const { data, error } = await supabase
-        .from("Ratings")
-        .update({
-          course_difficulty: this.rating_difficulty,
-          course_quality: this.rating_quality,
-        })
-        .eq("uuid", this.user_id)
-        .eq("course_id", this.course.id);
-      if (!error) {
-        console.log(data);
-        this.customAlert.msg = "Rating Updated.... Page will refresh in 5 seconds";
-        this.customAlert.show = true;
+      if (this.loggedin) {
+        const { data, error } = await supabase
+          .from("Ratings")
+          .update({
+            course_difficulty: this.rating_difficulty,
+            course_quality: this.rating_quality,
+          })
+          .eq("uuid", this.user_id)
+          .eq("course_id", this.course.id);
+        if (!error) {
+          console.log(data);
+          this.customAlert.msg = "Rating Updated.... Page will refresh in 5 seconds";
+          this.customAlert.show = true;
 
-        setTimeout(() => {
-          this.$router.go();
-        }, 5000);
-      } else {
-        alert(error.message);
+          setTimeout(() => {
+            this.$router.go();
+          }, 5000);
+        } else {
+          alert(error.message);
+        }
       }
     },
     openModal() {

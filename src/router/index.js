@@ -13,26 +13,22 @@ const routes = [
     path: '/',
     name: 'home',
     component: HomeView,
-    meta: { requiresAuth: true}
   },
   {
     path: '/foundation',
     name: 'foundation',
     component: FoundationView,
-    meta: { requiresAuth: true}
 
   },
   {
     path: '/diploma',
     name: 'diploma',
     component: DiplomaView,
-    meta: { requiresAuth: true}
   },
   {
     path: '/degree',
     name: 'degree',
     component: () => import('../views/DegreeView.vue'),
-    meta: { requiresAuth: true}
   },
   {
     path: '/login',
