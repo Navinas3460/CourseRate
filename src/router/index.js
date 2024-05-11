@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import FoundationView from '../views/FoundationView.vue'
 import LoginView from '../views/LoginView.vue'
+import AddCourseView from '../views/AddCourseView.vue'
 
 import { supabase } from '../../utils/supabase.ts'
 let localUser;
@@ -24,7 +25,14 @@ const routes = [
     path: '/login',
     name: 'login',
     component: LoginView
+  },
+  {
+    path: '/add-course',
+    name: 'add-course',
+    component: AddCourseView,
+    meta: { requiresAuth: true}
   }
+
 ]
 
 async function getUser() {
